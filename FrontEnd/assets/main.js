@@ -83,6 +83,32 @@ function filterWorks(type) {
   // Mettre à jour le HTML avec les éléments filtrés
 }
 
+async function getCategories() {
+  try {
+    const response = await fetch(CATEGORIES_URL)
+    const categorieJson = await response.json()
+    return categorieJson
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+
+function buildOptionCategorieList(categories) {
+  const selectComponent = document.querySelector('.field_categorie')
+  selectComponent.innerHTML = `<option value=${0}></option>`
+  categories.forEach((categorie) => {
+    selectComponent.innerHTML += `<option value=${categorie.id}>${categorie.name}</option>`
+  })
+}
+
+
+btn.onclick = async function () {
+  const categorieList = await getCategories()
+  buildOptionCategorieList(categorieList)
+  modal.style.display = 'block'
+}
+
 function renderModal(element) {
   const figure2 =
    '<span id="span' + element.id + '"><img src="' 
